@@ -22,6 +22,9 @@
 #include "stm32f3xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "liquidcrystal_i2c.h"
+#include <stdbool.h>
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -31,7 +34,20 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define C		(0x24)
+#define CS  	(0x25)
+#define D		(0x26)
+#define DS  	(0x27)
+#define E		(0x28)
+#define F   	(0x29)
+#define FS  	(0x2A)
+#define G		(0x2B)
+#define GS  	(0x2C)
+#define A		(0x2D)
+#define AS  	(0x2E)
+#define B   	(0x2F)
+#define STOP	(0x00)
+#define PLAY	(0x7F)
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -41,12 +57,16 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-
+uint8_t pin_num = 0;
+bool play_toggled = false;
+bool pressed = false;
+char msg[10];
+uint8_t message[5] = { 0x91, C, 0x40, C, 0x00 };
+uint8_t PS_message[3] = { 0xB1, 0x15, STOP };
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -55,9 +75,9 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-
+extern TIM_HandleTypeDef htim2;
 /* USER CODE BEGIN EV */
-
+extern UART_HandleTypeDef huart2;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -199,107 +219,113 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
-  * @brief This function handles EXTI line0 interrupt.
+  * @brief This function handles TIM2 global interrupt.
   */
-void EXTI0_IRQHandler(void)
+void TIM2_IRQHandler(void)
 {
-  /* USER CODE BEGIN EXTI0_IRQn 0 */
+  /* USER CODE BEGIN TIM2_IRQn 0 */
+	if (!HAL_GPIO_ReadPin (CB_GPIO_Port, CB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = C;
+			message[3] = C;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (CSB_GPIO_Port, CSB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = CS;
+			message[3] = CS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (DB_GPIO_Port, DB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = D;
+			message[3] = D;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (DSB_GPIO_Port, DSB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = DS;
+			message[3] = DS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (EB_GPIO_Port, EB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = E;
+			message[3] = E;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (FB_GPIO_Port, FB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = F;
+			message[3] = F;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (FSB_GPIO_Port, FSB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = FS;
+			message[3] = FS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (GB_GPIO_Port, GB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = G;
+			message[3] = G;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (GSB_GPIO_Port, GSB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = GS;
+			message[3] = GS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (AB_GPIO_Port, AB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = A;
+			message[3] = A;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (ASB_GPIO_Port, ASB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = AS;
+			message[3] = AS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (BB_GPIO_Port, BB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			message[1] = B;
+			message[3] = B;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+		}
+	} else if (!HAL_GPIO_ReadPin (SPB_GPIO_Port, SPB_Pin)) {
+		if (!pressed) {
+			pressed = true;
+			play_toggled = !play_toggled;
+			PS_message[2] = play_toggled ? PLAY : STOP;
+			HAL_UART_Transmit (&huart2, (uint8_t *) PS_message, 3, 100);
+//			sprintf (msg, "%s\r\n", play_toggled ? "PLAY" : "STOP");
+//			HAL_UART_Transmit (&huart2, (uint8_t *) msg, 6, 100);
+		}
+	}
+	else {
+		pressed = false;
+	}
+  /* USER CODE END TIM2_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim2);
+  /* USER CODE BEGIN TIM2_IRQn 1 */
 
-  /* USER CODE END EXTI0_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(CB_Pin);
-  /* USER CODE BEGIN EXTI0_IRQn 1 */
-
-  /* USER CODE END EXTI0_IRQn 1 */
-}
-
-/**
-  * @brief This function handles EXTI line1 interrupt.
-  */
-void EXTI1_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI1_IRQn 0 */
-
-  /* USER CODE END EXTI1_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(CSB_Pin);
-  /* USER CODE BEGIN EXTI1_IRQn 1 */
-
-  /* USER CODE END EXTI1_IRQn 1 */
-}
-
-/**
-  * @brief This function handles EXTI line2 and Touch Sense controller.
-  */
-void EXTI2_TSC_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI2_TSC_IRQn 0 */
-
-  /* USER CODE END EXTI2_TSC_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(DB_Pin);
-  /* USER CODE BEGIN EXTI2_TSC_IRQn 1 */
-
-  /* USER CODE END EXTI2_TSC_IRQn 1 */
-}
-
-/**
-  * @brief This function handles EXTI line3 interrupt.
-  */
-void EXTI3_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI3_IRQn 0 */
-
-  /* USER CODE END EXTI3_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(DSB_Pin);
-  /* USER CODE BEGIN EXTI3_IRQn 1 */
-
-  /* USER CODE END EXTI3_IRQn 1 */
-}
-
-/**
-  * @brief This function handles EXTI line4 interrupt.
-  */
-void EXTI4_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI4_IRQn 0 */
-
-  /* USER CODE END EXTI4_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(EB_Pin);
-  /* USER CODE BEGIN EXTI4_IRQn 1 */
-
-  /* USER CODE END EXTI4_IRQn 1 */
-}
-
-/**
-  * @brief This function handles EXTI line[9:5] interrupts.
-  */
-void EXTI9_5_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
-
-  /* USER CODE END EXTI9_5_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(FB_Pin);
-  HAL_GPIO_EXTI_IRQHandler(FSB_Pin);
-  HAL_GPIO_EXTI_IRQHandler(GB_Pin);
-  HAL_GPIO_EXTI_IRQHandler(GSB_Pin);
-  HAL_GPIO_EXTI_IRQHandler(AB_Pin);
-  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
-
-  /* USER CODE END EXTI9_5_IRQn 1 */
-}
-
-/**
-  * @brief This function handles EXTI line[15:10] interrupts.
-  */
-void EXTI15_10_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
-
-  /* USER CODE END EXTI15_10_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(ASB_Pin);
-  HAL_GPIO_EXTI_IRQHandler(BB_Pin);
-  HAL_GPIO_EXTI_IRQHandler(SPB_Pin);
-  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
-
-  /* USER CODE END EXTI15_10_IRQn 1 */
+  /* USER CODE END TIM2_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
