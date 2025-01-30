@@ -27,25 +27,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  11 .ARM.attributes 00000030  00000000  00000000  00005018  2**0
                   CONTENTS, READONLY
- 12 .debug_info   00010d2c  00000000  00000000  00005048  2**0
+ 12 .debug_info   00010d4e  00000000  00000000  00005048  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 13 .debug_abbrev 00001f90  00000000  00000000  00015d74  2**0
+ 13 .debug_abbrev 00001f90  00000000  00000000  00015d96  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_aranges 00000eb8  00000000  00000000  00017d08  2**3
+ 14 .debug_aranges 00000eb8  00000000  00000000  00017d28  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_rnglists 00000bac  00000000  00000000  00018bc0  2**0
+ 15 .debug_rnglists 00000bac  00000000  00000000  00018be0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_macro  00002663  00000000  00000000  0001976c  2**0
+ 16 .debug_macro  00002663  00000000  00000000  0001978c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   0001327c  00000000  00000000  0001bdcf  2**0
+ 17 .debug_line   0001327c  00000000  00000000  0001bdef  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    000a6ec9  00000000  00000000  0002f04b  2**0
+ 18 .debug_str    000a6ed8  00000000  00000000  0002f06b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  000d5f14  2**0
+ 19 .comment      00000043  00000000  00000000  000d5f43  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  00003ee8  00000000  00000000  000d5f58  2**2
+ 20 .debug_frame  00003ee8  00000000  00000000  000d5f88  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 21 .debug_line_str 0000006b  00000000  00000000  000d9e40  2**0
+ 21 .debug_line_str 0000006b  00000000  00000000  000d9e70  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1184,17 +1184,17 @@ void TIM2_IRQHandler(void)
  8000746:	4ba5      	ldr	r3, [pc, #660]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  8000748:	2201      	movs	r2, #1
  800074a:	701a      	strb	r2, [r3, #0]
-			message[1] = C;
+			message[2] = C;
  800074c:	4ba4      	ldr	r3, [pc, #656]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  800074e:	2224      	movs	r2, #36	@ 0x24
- 8000750:	705a      	strb	r2, [r3, #1]
-			message[3] = C;
+ 8000750:	709a      	strb	r2, [r3, #2]
+			message[4] = C;
  8000752:	4ba3      	ldr	r3, [pc, #652]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000754:	2224      	movs	r2, #36	@ 0x24
- 8000756:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 8000756:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  8000758:	2364      	movs	r3, #100	@ 0x64
- 800075a:	2205      	movs	r2, #5
+ 800075a:	2206      	movs	r2, #6
  800075c:	49a0      	ldr	r1, [pc, #640]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  800075e:	48a1      	ldr	r0, [pc, #644]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  8000760:	f002 fe98 	bl	8003494 <HAL_UART_Transmit>
@@ -1218,17 +1218,17 @@ void TIM2_IRQHandler(void)
  8000784:	4b95      	ldr	r3, [pc, #596]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  8000786:	2201      	movs	r2, #1
  8000788:	701a      	strb	r2, [r3, #0]
-			message[1] = CS;
+			message[2] = CS;
  800078a:	4b95      	ldr	r3, [pc, #596]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  800078c:	2225      	movs	r2, #37	@ 0x25
- 800078e:	705a      	strb	r2, [r3, #1]
-			message[3] = CS;
+ 800078e:	709a      	strb	r2, [r3, #2]
+			message[4] = CS;
  8000790:	4b93      	ldr	r3, [pc, #588]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000792:	2225      	movs	r2, #37	@ 0x25
- 8000794:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 8000794:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  8000796:	2364      	movs	r3, #100	@ 0x64
- 8000798:	2205      	movs	r2, #5
+ 8000798:	2206      	movs	r2, #6
  800079a:	4991      	ldr	r1, [pc, #580]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  800079c:	4891      	ldr	r0, [pc, #580]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  800079e:	f002 fe79 	bl	8003494 <HAL_UART_Transmit>
@@ -1252,17 +1252,17 @@ void TIM2_IRQHandler(void)
  80007c2:	4b86      	ldr	r3, [pc, #536]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  80007c4:	2201      	movs	r2, #1
  80007c6:	701a      	strb	r2, [r3, #0]
-			message[1] = D;
+			message[2] = D;
  80007c8:	4b85      	ldr	r3, [pc, #532]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  80007ca:	2226      	movs	r2, #38	@ 0x26
- 80007cc:	705a      	strb	r2, [r3, #1]
-			message[3] = D;
+ 80007cc:	709a      	strb	r2, [r3, #2]
+			message[4] = D;
  80007ce:	4b84      	ldr	r3, [pc, #528]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  80007d0:	2226      	movs	r2, #38	@ 0x26
- 80007d2:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 80007d2:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  80007d4:	2364      	movs	r3, #100	@ 0x64
- 80007d6:	2205      	movs	r2, #5
+ 80007d6:	2206      	movs	r2, #6
  80007d8:	4981      	ldr	r1, [pc, #516]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  80007da:	4882      	ldr	r0, [pc, #520]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  80007dc:	f002 fe5a 	bl	8003494 <HAL_UART_Transmit>
@@ -1286,17 +1286,17 @@ void TIM2_IRQHandler(void)
  8000800:	4b76      	ldr	r3, [pc, #472]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  8000802:	2201      	movs	r2, #1
  8000804:	701a      	strb	r2, [r3, #0]
-			message[1] = DS;
+			message[2] = DS;
  8000806:	4b76      	ldr	r3, [pc, #472]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000808:	2227      	movs	r2, #39	@ 0x27
- 800080a:	705a      	strb	r2, [r3, #1]
-			message[3] = DS;
+ 800080a:	709a      	strb	r2, [r3, #2]
+			message[4] = DS;
  800080c:	4b74      	ldr	r3, [pc, #464]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  800080e:	2227      	movs	r2, #39	@ 0x27
- 8000810:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 8000810:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  8000812:	2364      	movs	r3, #100	@ 0x64
- 8000814:	2205      	movs	r2, #5
+ 8000814:	2206      	movs	r2, #6
  8000816:	4972      	ldr	r1, [pc, #456]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000818:	4872      	ldr	r0, [pc, #456]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  800081a:	f002 fe3b 	bl	8003494 <HAL_UART_Transmit>
@@ -1320,17 +1320,17 @@ void TIM2_IRQHandler(void)
  800083e:	4b67      	ldr	r3, [pc, #412]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  8000840:	2201      	movs	r2, #1
  8000842:	701a      	strb	r2, [r3, #0]
-			message[1] = E;
+			message[2] = E;
  8000844:	4b66      	ldr	r3, [pc, #408]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000846:	2228      	movs	r2, #40	@ 0x28
- 8000848:	705a      	strb	r2, [r3, #1]
-			message[3] = E;
+ 8000848:	709a      	strb	r2, [r3, #2]
+			message[4] = E;
  800084a:	4b65      	ldr	r3, [pc, #404]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  800084c:	2228      	movs	r2, #40	@ 0x28
- 800084e:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 800084e:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  8000850:	2364      	movs	r3, #100	@ 0x64
- 8000852:	2205      	movs	r2, #5
+ 8000852:	2206      	movs	r2, #6
  8000854:	4962      	ldr	r1, [pc, #392]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000856:	4863      	ldr	r0, [pc, #396]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  8000858:	f002 fe1c 	bl	8003494 <HAL_UART_Transmit>
@@ -1354,17 +1354,17 @@ void TIM2_IRQHandler(void)
  800087c:	4b57      	ldr	r3, [pc, #348]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  800087e:	2201      	movs	r2, #1
  8000880:	701a      	strb	r2, [r3, #0]
-			message[1] = F;
+			message[2] = F;
  8000882:	4b57      	ldr	r3, [pc, #348]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000884:	2229      	movs	r2, #41	@ 0x29
- 8000886:	705a      	strb	r2, [r3, #1]
-			message[3] = F;
+ 8000886:	709a      	strb	r2, [r3, #2]
+			message[4] = F;
  8000888:	4b55      	ldr	r3, [pc, #340]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  800088a:	2229      	movs	r2, #41	@ 0x29
- 800088c:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 800088c:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  800088e:	2364      	movs	r3, #100	@ 0x64
- 8000890:	2205      	movs	r2, #5
+ 8000890:	2206      	movs	r2, #6
  8000892:	4953      	ldr	r1, [pc, #332]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000894:	4853      	ldr	r0, [pc, #332]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  8000896:	f002 fdfd 	bl	8003494 <HAL_UART_Transmit>
@@ -1388,17 +1388,17 @@ void TIM2_IRQHandler(void)
  80008ba:	4b48      	ldr	r3, [pc, #288]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  80008bc:	2201      	movs	r2, #1
  80008be:	701a      	strb	r2, [r3, #0]
-			message[1] = FS;
+			message[2] = FS;
  80008c0:	4b47      	ldr	r3, [pc, #284]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  80008c2:	222a      	movs	r2, #42	@ 0x2a
- 80008c4:	705a      	strb	r2, [r3, #1]
-			message[3] = FS;
+ 80008c4:	709a      	strb	r2, [r3, #2]
+			message[4] = FS;
  80008c6:	4b46      	ldr	r3, [pc, #280]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  80008c8:	222a      	movs	r2, #42	@ 0x2a
- 80008ca:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 80008ca:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  80008cc:	2364      	movs	r3, #100	@ 0x64
- 80008ce:	2205      	movs	r2, #5
+ 80008ce:	2206      	movs	r2, #6
  80008d0:	4943      	ldr	r1, [pc, #268]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  80008d2:	4844      	ldr	r0, [pc, #272]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  80008d4:	f002 fdde 	bl	8003494 <HAL_UART_Transmit>
@@ -1422,17 +1422,17 @@ void TIM2_IRQHandler(void)
  80008fa:	4b38      	ldr	r3, [pc, #224]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  80008fc:	2201      	movs	r2, #1
  80008fe:	701a      	strb	r2, [r3, #0]
-			message[1] = G;
+			message[2] = G;
  8000900:	4b37      	ldr	r3, [pc, #220]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000902:	222b      	movs	r2, #43	@ 0x2b
- 8000904:	705a      	strb	r2, [r3, #1]
-			message[3] = G;
+ 8000904:	709a      	strb	r2, [r3, #2]
+			message[4] = G;
  8000906:	4b36      	ldr	r3, [pc, #216]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000908:	222b      	movs	r2, #43	@ 0x2b
- 800090a:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 800090a:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  800090c:	2364      	movs	r3, #100	@ 0x64
- 800090e:	2205      	movs	r2, #5
+ 800090e:	2206      	movs	r2, #6
  8000910:	4933      	ldr	r1, [pc, #204]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000912:	4834      	ldr	r0, [pc, #208]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  8000914:	f002 fdbe 	bl	8003494 <HAL_UART_Transmit>
@@ -1456,17 +1456,17 @@ void TIM2_IRQHandler(void)
  800093a:	4b28      	ldr	r3, [pc, #160]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  800093c:	2201      	movs	r2, #1
  800093e:	701a      	strb	r2, [r3, #0]
-			message[1] = GS;
+			message[2] = GS;
  8000940:	4b27      	ldr	r3, [pc, #156]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000942:	222c      	movs	r2, #44	@ 0x2c
- 8000944:	705a      	strb	r2, [r3, #1]
-			message[3] = GS;
+ 8000944:	709a      	strb	r2, [r3, #2]
+			message[4] = GS;
  8000946:	4b26      	ldr	r3, [pc, #152]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000948:	222c      	movs	r2, #44	@ 0x2c
- 800094a:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 800094a:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  800094c:	2364      	movs	r3, #100	@ 0x64
- 800094e:	2205      	movs	r2, #5
+ 800094e:	2206      	movs	r2, #6
  8000950:	4923      	ldr	r1, [pc, #140]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000952:	4824      	ldr	r0, [pc, #144]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  8000954:	f002 fd9e 	bl	8003494 <HAL_UART_Transmit>
@@ -1490,17 +1490,17 @@ void TIM2_IRQHandler(void)
  800097a:	4b18      	ldr	r3, [pc, #96]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  800097c:	2201      	movs	r2, #1
  800097e:	701a      	strb	r2, [r3, #0]
-			message[1] = A;
+			message[2] = A;
  8000980:	4b17      	ldr	r3, [pc, #92]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000982:	222d      	movs	r2, #45	@ 0x2d
- 8000984:	705a      	strb	r2, [r3, #1]
-			message[3] = A;
+ 8000984:	709a      	strb	r2, [r3, #2]
+			message[4] = A;
  8000986:	4b16      	ldr	r3, [pc, #88]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000988:	222d      	movs	r2, #45	@ 0x2d
- 800098a:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 800098a:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  800098c:	2364      	movs	r3, #100	@ 0x64
- 800098e:	2205      	movs	r2, #5
+ 800098e:	2206      	movs	r2, #6
  8000990:	4913      	ldr	r1, [pc, #76]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  8000992:	4814      	ldr	r0, [pc, #80]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  8000994:	f002 fd7e 	bl	8003494 <HAL_UART_Transmit>
@@ -1524,17 +1524,17 @@ void TIM2_IRQHandler(void)
  80009b8:	4b08      	ldr	r3, [pc, #32]	@ (80009dc <TIM2_IRQHandler+0x2b8>)
  80009ba:	2201      	movs	r2, #1
  80009bc:	701a      	strb	r2, [r3, #0]
-			message[1] = AS;
+			message[2] = AS;
  80009be:	4b08      	ldr	r3, [pc, #32]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  80009c0:	222e      	movs	r2, #46	@ 0x2e
- 80009c2:	705a      	strb	r2, [r3, #1]
-			message[3] = AS;
+ 80009c2:	709a      	strb	r2, [r3, #2]
+			message[4] = AS;
  80009c4:	4b06      	ldr	r3, [pc, #24]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  80009c6:	222e      	movs	r2, #46	@ 0x2e
- 80009c8:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 80009c8:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  80009ca:	2364      	movs	r3, #100	@ 0x64
- 80009cc:	2205      	movs	r2, #5
+ 80009cc:	2206      	movs	r2, #6
  80009ce:	4904      	ldr	r1, [pc, #16]	@ (80009e0 <TIM2_IRQHandler+0x2bc>)
  80009d0:	4804      	ldr	r0, [pc, #16]	@ (80009e4 <TIM2_IRQHandler+0x2c0>)
  80009d2:	f002 fd5f 	bl	8003494 <HAL_UART_Transmit>
@@ -1562,17 +1562,17 @@ void TIM2_IRQHandler(void)
  8000a06:	4b25      	ldr	r3, [pc, #148]	@ (8000a9c <TIM2_IRQHandler+0x378>)
  8000a08:	2201      	movs	r2, #1
  8000a0a:	701a      	strb	r2, [r3, #0]
-			message[1] = B;
+			message[2] = B;
  8000a0c:	4b24      	ldr	r3, [pc, #144]	@ (8000aa0 <TIM2_IRQHandler+0x37c>)
  8000a0e:	222f      	movs	r2, #47	@ 0x2f
- 8000a10:	705a      	strb	r2, [r3, #1]
-			message[3] = B;
+ 8000a10:	709a      	strb	r2, [r3, #2]
+			message[4] = B;
  8000a12:	4b23      	ldr	r3, [pc, #140]	@ (8000aa0 <TIM2_IRQHandler+0x37c>)
  8000a14:	222f      	movs	r2, #47	@ 0x2f
- 8000a16:	70da      	strb	r2, [r3, #3]
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+ 8000a16:	711a      	strb	r2, [r3, #4]
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
  8000a18:	2364      	movs	r3, #100	@ 0x64
- 8000a1a:	2205      	movs	r2, #5
+ 8000a1a:	2206      	movs	r2, #6
  8000a1c:	4920      	ldr	r1, [pc, #128]	@ (8000aa0 <TIM2_IRQHandler+0x37c>)
  8000a1e:	4821      	ldr	r0, [pc, #132]	@ (8000aa4 <TIM2_IRQHandler+0x380>)
  8000a20:	f002 fd38 	bl	8003494 <HAL_UART_Transmit>
@@ -1610,7 +1610,7 @@ void TIM2_IRQHandler(void)
  8000a62:	b2da      	uxtb	r2, r3
  8000a64:	4b10      	ldr	r3, [pc, #64]	@ (8000aa8 <TIM2_IRQHandler+0x384>)
  8000a66:	701a      	strb	r2, [r3, #0]
-			PS_message[2] = play_toggled ? PLAY : STOP;
+			PS_message[3] = play_toggled ? PLAY : STOP;
  8000a68:	4b0f      	ldr	r3, [pc, #60]	@ (8000aa8 <TIM2_IRQHandler+0x384>)
  8000a6a:	781b      	ldrb	r3, [r3, #0]
  8000a6c:	2b00      	cmp	r3, #0
@@ -1619,10 +1619,10 @@ void TIM2_IRQHandler(void)
  8000a72:	e000      	b.n	8000a76 <TIM2_IRQHandler+0x352>
  8000a74:	2200      	movs	r2, #0
  8000a76:	4b0d      	ldr	r3, [pc, #52]	@ (8000aac <TIM2_IRQHandler+0x388>)
- 8000a78:	709a      	strb	r2, [r3, #2]
-			HAL_UART_Transmit (&huart2, (uint8_t *) PS_message, 3, 100);
+ 8000a78:	70da      	strb	r2, [r3, #3]
+			HAL_UART_Transmit (&huart2, (uint8_t *) PS_message, 4, 100);
  8000a7a:	2364      	movs	r3, #100	@ 0x64
- 8000a7c:	2203      	movs	r2, #3
+ 8000a7c:	2204      	movs	r2, #4
  8000a7e:	490b      	ldr	r1, [pc, #44]	@ (8000aac <TIM2_IRQHandler+0x388>)
  8000a80:	4808      	ldr	r0, [pc, #32]	@ (8000aa4 <TIM2_IRQHandler+0x380>)
  8000a82:	f002 fd07 	bl	8003494 <HAL_UART_Transmit>

@@ -61,8 +61,10 @@ uint8_t pin_num = 0;
 bool play_toggled = false;
 bool pressed = false;
 char msg[10];
-uint8_t message[5] = { 0x91, C, 0x40, C, 0x00 };
-uint8_t PS_message[3] = { 0xB1, 0x15, STOP };
+uint8_t message[6] = { 0x19, 0x91, C, 0x40, C, 0x00 };
+uint8_t on_msg[4] = { 0x19, 0x91, C, 0x40};
+uint8_t off_msg[4] = { 0x19, 0x91, C, 0x00 };
+uint8_t PS_message[4] = { 0x1B, 0xB1, 0x15, STOP };
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -227,93 +229,93 @@ void TIM2_IRQHandler(void)
 	if (!HAL_GPIO_ReadPin (CB_GPIO_Port, CB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = C;
-			message[3] = C;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = C;
+			message[4] = C;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (CSB_GPIO_Port, CSB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = CS;
-			message[3] = CS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = CS;
+			message[4] = CS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (DB_GPIO_Port, DB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = D;
-			message[3] = D;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = D;
+			message[4] = D;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (DSB_GPIO_Port, DSB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = DS;
-			message[3] = DS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = DS;
+			message[4] = DS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (EB_GPIO_Port, EB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = E;
-			message[3] = E;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = E;
+			message[4] = E;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (FB_GPIO_Port, FB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = F;
-			message[3] = F;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = F;
+			message[4] = F;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (FSB_GPIO_Port, FSB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = FS;
-			message[3] = FS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = FS;
+			message[4] = FS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (GB_GPIO_Port, GB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = G;
-			message[3] = G;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = G;
+			message[4] = G;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (GSB_GPIO_Port, GSB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = GS;
-			message[3] = GS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = GS;
+			message[4] = GS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (AB_GPIO_Port, AB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = A;
-			message[3] = A;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = A;
+			message[4] = A;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (ASB_GPIO_Port, ASB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = AS;
-			message[3] = AS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = AS;
+			message[4] = AS;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (BB_GPIO_Port, BB_Pin)) {
 		if (!pressed) {
 			pressed = true;
-			message[1] = B;
-			message[3] = B;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 5, 100);
+			message[2] = B;
+			message[4] = B;
+			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (SPB_GPIO_Port, SPB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			play_toggled = !play_toggled;
-			PS_message[2] = play_toggled ? PLAY : STOP;
-			HAL_UART_Transmit (&huart2, (uint8_t *) PS_message, 3, 100);
+			PS_message[3] = play_toggled ? PLAY : STOP;
+			HAL_UART_Transmit (&huart2, (uint8_t *) PS_message, 4, 100);
 //			sprintf (msg, "%s\r\n", play_toggled ? "PLAY" : "STOP");
 //			HAL_UART_Transmit (&huart2, (uint8_t *) msg, 6, 100);
 		}
