@@ -23,6 +23,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "liquidcrystal_i2c.h"
+
+#include "usbd_cdc_if.h"
 #include <stdbool.h>
 #include <stdio.h>
 /* USER CODE END Includes */
@@ -77,9 +79,11 @@ uint8_t PS_message[4] = { 0x1B, 0xB1, 0x15, STOP };
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern PCD_HandleTypeDef hpcd_USB_FS;
 extern TIM_HandleTypeDef htim2;
 /* USER CODE BEGIN EV */
-extern UART_HandleTypeDef huart2;
+//extern UART_HandleTypeDef huart2;
+//extern USBD_HandleTypeDef midi_usb;
 /* USER CODE END EV */
 
 /******************************************************************************/
@@ -221,6 +225,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+  * @brief This function handles CAN RX0 and USB low priority interrupts.
+  */
+void USB_LP_CAN_RX0_IRQHandler(void)
+{
+  /* USER CODE BEGIN USB_LP_CAN_RX0_IRQn 0 */
+
+  /* USER CODE END USB_LP_CAN_RX0_IRQn 0 */
+  HAL_PCD_IRQHandler(&hpcd_USB_FS);
+  /* USER CODE BEGIN USB_LP_CAN_RX0_IRQn 1 */
+
+  /* USER CODE END USB_LP_CAN_RX0_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM2 global interrupt.
   */
 void TIM2_IRQHandler(void)
@@ -231,91 +249,93 @@ void TIM2_IRQHandler(void)
 			pressed = true;
 			message[2] = C;
 			message[4] = C;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+			CDC_Transmit_FS ((uint8_t *) message, 6);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (CSB_GPIO_Port, CSB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = CS;
 			message[4] = CS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (DB_GPIO_Port, DB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = D;
 			message[4] = D;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (DSB_GPIO_Port, DSB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = DS;
 			message[4] = DS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (EB_GPIO_Port, EB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = E;
 			message[4] = E;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (FB_GPIO_Port, FB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = F;
 			message[4] = F;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (FSB_GPIO_Port, FSB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = FS;
 			message[4] = FS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (GB_GPIO_Port, GB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = G;
 			message[4] = G;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (GSB_GPIO_Port, GSB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = GS;
 			message[4] = GS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (AB_GPIO_Port, AB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = A;
 			message[4] = A;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (ASB_GPIO_Port, ASB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = AS;
 			message[4] = AS;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (BB_GPIO_Port, BB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			message[2] = B;
 			message[4] = B;
-			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) message, 6, 100);
 		}
 	} else if (!HAL_GPIO_ReadPin (SPB_GPIO_Port, SPB_Pin)) {
 		if (!pressed) {
 			pressed = true;
 			play_toggled = !play_toggled;
 			PS_message[3] = play_toggled ? PLAY : STOP;
-			HAL_UART_Transmit (&huart2, (uint8_t *) PS_message, 4, 100);
+//			HAL_UART_Transmit (&huart2, (uint8_t *) PS_message, 4, 100);
+
 //			sprintf (msg, "%s\r\n", play_toggled ? "PLAY" : "STOP");
 //			HAL_UART_Transmit (&huart2, (uint8_t *) msg, 6, 100);
 		}

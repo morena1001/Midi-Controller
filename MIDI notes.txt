@@ -7,6 +7,10 @@ where  : n is the status (0xB),
 	 vv is the controller value (0 - 127).
 
 
+FOR START STOP BUTTON :
+0xB1, 0x15, 0x00 (0x127)
+
+
 
 
 NOTE OFF : (0x80), 
