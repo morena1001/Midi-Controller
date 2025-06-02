@@ -16,7 +16,7 @@ S_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 Core/Startup/%.o: ../Core/Startup/%.s Core/Startup/subdir.mk
-	arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -I"C:/Users/josue/STM32CubeIDE/workspace_1.16.0/Midi Controller/Middlewares/ST/STM32_USB_Device_Library/Class/MIDI" -I"C:/Users/josue/STM32CubeIDE/workspace_1.16.0/Midi Controller/Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Inc" -I"C:/Users/josue/STM32CubeIDE/workspace_1.16.0/Midi Controller/Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Src" -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@" "$<"
 
 clean: clean-Core-2f-Startup
 

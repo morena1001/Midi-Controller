@@ -22,12 +22,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "liquidcrystal_i2c.h"
-//#include "usbd_audio_if.h"
-
-//#include "usbd_cdc_if.h"
-//#include <string.h>
-//#include <stdio.h>
+#include "usbd_midi.h"
+#include <string.h>
+#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,11 +46,7 @@
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
-char usbd_ch;
-int flag = 0;
-//char buffer1[] = "You sent 1, get 1 back";
-//char buffer2[] = "You sent 2, get 2 back";
-//char buffer3[] = "You sent 3, get 3 back";
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -112,24 +105,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  if (flag) {
-//		  switch (usbd_ch) {
-//			  case '1': {
-//				CDC_Transmit_FS ((uint8_t *) buffer1, strlen (buffer1));
-//			  } break;
-//
-//			  case '2': {
-//				CDC_Transmit_FS ((uint8_t *) buffer2, strlen (buffer2));
-//			  } break;
-//
-//			  case '3': {
-//				CDC_Transmit_FS ((uint8_t *) buffer3, strlen (buffer3));
-//			  } break;
-//		  }
-//		  flag = 0;
-//	  }
-//	  CDC_Transmit_FS ((uint8_t *) data_2, strlen (data_2));
-//	  HAL_Delay (500);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -240,7 +215,6 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
