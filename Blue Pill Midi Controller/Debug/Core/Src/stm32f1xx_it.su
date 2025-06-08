@@ -1,0 +1,14 @@
+../Core/Src/stm32f1xx_it.c:114:6:NMI_Handler	4	static
+../Core/Src/stm32f1xx_it.c:129:6:HardFault_Handler	4	static
+../Core/Src/stm32f1xx_it.c:144:6:MemManage_Handler	4	static
+../Core/Src/stm32f1xx_it.c:159:6:BusFault_Handler	4	static
+../Core/Src/stm32f1xx_it.c:174:6:UsageFault_Handler	4	static
+../Core/Src/stm32f1xx_it.c:189:6:SVC_Handler	4	static
+../Core/Src/stm32f1xx_it.c:202:6:DebugMon_Handler	4	static
+../Core/Src/stm32f1xx_it.c:215:6:PendSV_Handler	4	static
+../Core/Src/stm32f1xx_it.c:228:6:SysTick_Handler	8	static
+../Core/Src/stm32f1xx_it.c:249:6:USB_LP_CAN1_RX0_IRQHandler	8	static
+../Core/Src/stm32f1xx_it.c:263:6:TIM2_IRQHandler	8	static
+../Core/Src/stm32f1xx_it.c:408:6:Note_Change	16	static
+../Core/Src/stm32f1xx_it.c:421:6:Toggle_Control	8	static
+../Core/Src/stm32f1xx_it.c:429:9:ratio	16	static

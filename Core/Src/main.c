@@ -110,17 +110,17 @@ int main(void)
   HAL_NVIC_EnableIRQ (TIM2_IRQn);
   HAL_TIM_Base_Start_IT (&htim2);
   /* USER CODE END 2 */
-//    HAL_ADC_Start (&hadc1);
-//	HAL_ADC_PollForConversion (&hadc1, 100);
-//	ADC_val[0] = HAL_ADC_GetValue (&hadc1);
-//	ADC_val[1] = HAL_ADC_GetValue (&hadc1);
-//	current = (alpha * ADC_val[1]) + ((1 - alpha) * ADC_val[0]);
-//	current = (current * 127) / (4095);
-//	previous = current;
-//	vol_message[3] = current;
-//
-//	while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//	USBD_MIDI_SendPackets (&hUsbDeviceFS, vol_message, 4);
+    HAL_ADC_Start (&hadc1);
+	HAL_ADC_PollForConversion (&hadc1, 100);
+	ADC_val[0] = HAL_ADC_GetValue (&hadc1);
+	ADC_val[1] = HAL_ADC_GetValue (&hadc1);
+	current = (alpha * ADC_val[1]) + ((1 - alpha) * ADC_val[0]);
+	current = (current * 127) / (4095);
+	previous = current;
+	vol_message[3] = current;
+
+	while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+	USBD_MIDI_SendPackets (&hUsbDeviceFS, vol_message, 4);
 	/* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
