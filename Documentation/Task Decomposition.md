@@ -1,27 +1,27 @@
 ## Task Decomposition
 
 
-- [x] Prototype on prototyping MCU
-  - [x] Setup IDE project for the prototyping MCU
-    - [x] GPIO input and ADC pins
-    - [x] USB pins
-  - [x] Setup push button layout on prototyping breadboard
-  - [x] Connect breadboard and components to the MCU
-  - [x] Setup USB connection using custom usb cable
-  - [x] Write code to transmit MIDI messages
+- [x] ~~Prototype on prototyping MCU~~
+  - [x] ~~Setup IDE project for the prototyping MCU~~
+    - [x] ~~GPIO input and ADC pins~~
+    - [x] ~~USB pins~~
+  - [x] ~~Setup push button layout on prototyping breadboard~~
+  - [x] ~~Connect breadboard and components to the MCU~~
+  - [x] ~~Setup USB connection using custom usb cable~~
+  - [x] ~~Write code to transmit MIDI messages~~
 
      
-- [x] Prototype on final design MCU
-  - [x] Setup new IDE project using the final design MCU
-  - [x] Rewire breaboard and components to the final design MCU
-  - [x] Setup USB connection using Micro USB to USB A cable
-  - [x] Translate code to work with final design MCU
+- [x] ~~Prototype on final design MCU~~
+  - [x] ~~Setup new IDE project using the final design MCU~~
+  - [x] ~~Rewire breaboard and components to the final design MCU~~
+  - [x] ~~Setup USB connection using Micro USB to USB A cable~~
+  - [x] ~~Translate code to work with final design MCU~~
 
      
 - [ ] Design final product part 1
-  - [x] Choose components for the project
-    - [x] push buttons
-    - [x] potentiometers
+  - [ ] Choose components for the project
+    - [x] ~~push buttons~~
+    - [x] ~~potentiometers~~
     - [ ] capacitors (breadboard and SMD)
     - [ ] LED (SMD) ? 
   - [ ] Design PCB according to the size and pin specifications of all the components
