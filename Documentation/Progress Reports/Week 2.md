@@ -1,0 +1,5 @@
+# First Project Expenses
+
+Up until today was spend waiting for the components that will be used for the final product design to arrive. The switches came in yesterday, June 11, and a quick test proved that the switches worked exactly how the breadboard prototype switch buttons work. The potentiometers came in today, June 12, meaning that the only component left to purchase not including the pcb are the capacitors. Those will have to be purchased and tested before the pcb is finalized and sent to be printed.
+
+The schematic for the pcb was finished today, and only included female pins sockets. All of the components include their own pins, which will be used to form the connection between the pcb and the components. Also, before the pcb design is finalized, I would like to make and print print a 3d model of it to make sure that all the components, switches, potentiometers, and MCU, fit into the holes without any issues. Hopefully that'll help lessen the amount of times I resubmit the pcb to fix any errors, and the amount of money spent as well.   
