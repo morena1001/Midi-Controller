@@ -1,36 +1,33 @@
 USB_DEVICE/Target/usbd_conf.o: ../USB_DEVICE/Target/usbd_conf.c \
- ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f3xx.h \
- ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h \
- ../Drivers/CMSIS/Include/core_cm4.h \
+ ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h \
+ ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h \
+ ../Drivers/CMSIS/Include/core_cm3.h \
  ../Drivers/CMSIS/Include/cmsis_version.h \
  ../Drivers/CMSIS/Include/cmsis_compiler.h \
  ../Drivers/CMSIS/Include/cmsis_gcc.h \
- ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h \
- ../Core/Inc/stm32f3xx_hal_conf.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc_ex.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio_ex.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_exti.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma_ex.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_cortex.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc_ex.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_flash.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_flash_ex.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c_ex.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_usb.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd_ex.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h \
- ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h \
+ ../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
+ ../Core/Inc/stm32f1xx_hal_conf.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h \
+ ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h \
  ../USB_DEVICE/Target/usbd_conf.h ../Core/Inc/main.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h \
@@ -38,40 +35,37 @@ USB_DEVICE/Target/usbd_conf.o: ../USB_DEVICE/Target/usbd_conf.c \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h \
- C:/Users/josue/STM32CubeIDE/workspace_1.16.0/Midi\ Controller/Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Inc/usbd_midi.h \
+ C:/Users/josue/STM32CubeIDE/workspace_1.16.0/Blue\ Pill\ USB\ Test/Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Inc/usbd_midi.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h
-../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f3xx.h:
-../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f302x8.h:
-../Drivers/CMSIS/Include/core_cm4.h:
+../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f1xx.h:
+../Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h:
+../Drivers/CMSIS/Include/core_cm3.h:
 ../Drivers/CMSIS/Include/cmsis_version.h:
 ../Drivers/CMSIS/Include/cmsis_compiler.h:
 ../Drivers/CMSIS/Include/cmsis_gcc.h:
-../Drivers/CMSIS/Device/ST/STM32F3xx/Include/system_stm32f3xx.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
-../Core/Inc/stm32f3xx_hal_conf.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_def.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_rcc_ex.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_gpio_ex.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_exti.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_dma_ex.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_cortex.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_adc_ex.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_flash.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_flash_ex.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_i2c_ex.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_ll_usb.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pcd_ex.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_pwr_ex.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim.h:
-../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h:
+../Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
+../Core/Inc/stm32f1xx_hal_conf.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_def.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc_ex.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_gpio_ex.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_exti.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_dma_ex.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_cortex.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_adc_ex.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_ll_usb.h:
+../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pcd_ex.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_def.h:
 ../USB_DEVICE/Target/usbd_conf.h:
 ../Core/Inc/main.h:
@@ -80,5 +74,5 @@ USB_DEVICE/Target/usbd_conf.o: ../USB_DEVICE/Target/usbd_conf.c \
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h:
-C:/Users/josue/STM32CubeIDE/workspace_1.16.0/Midi\ Controller/Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Inc/usbd_midi.h:
+C:/Users/josue/STM32CubeIDE/workspace_1.16.0/Blue\ Pill\ USB\ Test/Middlewares/ST/STM32_USB_Device_Library/Class/MIDI/Inc/usbd_midi.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:

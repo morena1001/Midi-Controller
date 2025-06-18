@@ -27,7 +27,7 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
+#include "stm32f1xx_hal.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -46,8 +46,8 @@ extern "C" {
 
 /* Exported macro ------------------------------------------------------------*/
 /* USER CODE BEGIN EM */
-#define MIDI_IN_PORTS_NUM   0x01
-#define MIDI_OUT_PORTS_NUM  0x01
+#define MIDI_IN_PORTS_NUM   0x01 // Specify input ports number of your device
+#define MIDI_OUT_PORTS_NUM  0x01 // Specify output ports number of your device
 /* USER CODE END EM */
 
 /* Exported functions prototypes ---------------------------------------------*/
@@ -58,34 +58,36 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define Volume_1_Pin GPIO_PIN_0
-#define Volume_1_GPIO_Port GPIOA
-#define GB_Pin GPIO_PIN_7
-#define GB_GPIO_Port GPIOA
-#define CB_Pin GPIO_PIN_0
-#define CB_GPIO_Port GPIOB
-#define CSB_Pin GPIO_PIN_1
-#define CSB_GPIO_Port GPIOB
-#define DB_Pin GPIO_PIN_2
-#define DB_GPIO_Port GPIOB
-#define ASB_Pin GPIO_PIN_10
-#define ASB_GPIO_Port GPIOB
-#define BB_Pin GPIO_PIN_11
-#define BB_GPIO_Port GPIOB
-#define SPB_Pin GPIO_PIN_12
-#define SPB_GPIO_Port GPIOB
-#define DSB_Pin GPIO_PIN_3
-#define DSB_GPIO_Port GPIOB
-#define EB_Pin GPIO_PIN_4
-#define EB_GPIO_Port GPIOB
-#define FB_Pin GPIO_PIN_5
-#define FB_GPIO_Port GPIOB
-#define FSB_Pin GPIO_PIN_6
-#define FSB_GPIO_Port GPIOB
-#define GSB_Pin GPIO_PIN_8
-#define GSB_GPIO_Port GPIOB
-#define AB_Pin GPIO_PIN_9
-#define AB_GPIO_Port GPIOB
+#define C_B_Pin GPIO_PIN_2
+#define C_B_GPIO_Port GPIOA
+#define CS_B_Pin GPIO_PIN_3
+#define CS_B_GPIO_Port GPIOA
+#define D_B_Pin GPIO_PIN_4
+#define D_B_GPIO_Port GPIOA
+#define DS_B_Pin GPIO_PIN_5
+#define DS_B_GPIO_Port GPIOA
+#define E_B_Pin GPIO_PIN_6
+#define E_B_GPIO_Port GPIOA
+#define F_B_Pin GPIO_PIN_7
+#define F_B_GPIO_Port GPIOA
+#define D_V_Pin GPIO_PIN_0
+#define D_V_GPIO_Port GPIOB
+#define P_V_Pin GPIO_PIN_1
+#define P_V_GPIO_Port GPIOB
+#define FS_B_Pin GPIO_PIN_15
+#define FS_B_GPIO_Port GPIOA
+#define G_B_Pin GPIO_PIN_3
+#define G_B_GPIO_Port GPIOB
+#define GS_B_Pin GPIO_PIN_4
+#define GS_B_GPIO_Port GPIOB
+#define A_B_Pin GPIO_PIN_5
+#define A_B_GPIO_Port GPIOB
+#define AS_B_Pin GPIO_PIN_6
+#define AS_B_GPIO_Port GPIOB
+#define B_B_Pin GPIO_PIN_7
+#define B_B_GPIO_Port GPIOB
+#define SP_B_Pin GPIO_PIN_8
+#define SP_B_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

@@ -19,8 +19,8 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx.h"
-#include "stm32f3xx_hal.h"
+#include "stm32f1xx.h"
+#include "stm32f1xx_hal.h"
 #include "usbd_def.h"
 #include "usbd_core.h"
 #include "usbd_midi.h"
@@ -77,8 +77,8 @@ void HAL_PCD_MspInit(PCD_HandleTypeDef* pcdHandle)
     __HAL_RCC_USB_CLK_ENABLE();
 
     /* Peripheral interrupt init */
-    HAL_NVIC_SetPriority(USB_LP_CAN_RX0_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(USB_LP_CAN_RX0_IRQn);
+    HAL_NVIC_SetPriority(USB_LP_CAN1_RX0_IRQn, 0, 0);
+    HAL_NVIC_EnableIRQ(USB_LP_CAN1_RX0_IRQn);
   /* USER CODE BEGIN USB_MspInit 1 */
 
   /* USER CODE END USB_MspInit 1 */
@@ -96,7 +96,7 @@ void HAL_PCD_MspDeInit(PCD_HandleTypeDef* pcdHandle)
     __HAL_RCC_USB_CLK_DISABLE();
 
     /* Peripheral interrupt Deinit*/
-    HAL_NVIC_DisableIRQ(USB_LP_CAN_RX0_IRQn);
+    HAL_NVIC_DisableIRQ(USB_LP_CAN1_RX0_IRQn);
 
   /* USER CODE BEGIN USB_MspDeInit 1 */
 
@@ -305,8 +305,8 @@ USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
   hpcd_USB_FS.Instance = USB;
   hpcd_USB_FS.Init.dev_endpoints = 8;
   hpcd_USB_FS.Init.speed = PCD_SPEED_FULL;
-  hpcd_USB_FS.Init.phy_itface = PCD_PHY_EMBEDDED;
   hpcd_USB_FS.Init.low_power_enable = DISABLE;
+  hpcd_USB_FS.Init.lpm_enable = DISABLE;
   hpcd_USB_FS.Init.battery_charging_enable = DISABLE;
   if (HAL_PCD_Init(&hpcd_USB_FS) != HAL_OK)
   {
@@ -588,7 +588,7 @@ void USBD_LL_Delay(uint32_t Delay)
   */
 void *USBD_static_malloc(uint32_t size)
 {
-  static uint32_t mem[(sizeof(USBD_MIDI_HandleTypeDef)/4)+1];/* On 32-bit boundary */
+  static uint32_t mem[(sizeof(USBD_MIDI_HandleTypeDef)/4)+1];;/* On 32-bit boundary */
   return mem;
 }
 
@@ -603,13 +603,13 @@ void USBD_static_free(void *p)
 }
 
 /**
-  * @brief Software device connection
+  * @brief Software Device Connection
   * @param hpcd: PCD handle
   * @param state: Connection state (0: disconnected / 1: connected)
   * @retval None
   */
 #if (USE_HAL_PCD_REGISTER_CALLBACKS == 1U)
-void PCDEx_SetConnectionState(PCD_HandleTypeDef *hpcd, uint8_t state)
+static void PCDEx_SetConnectionState(PCD_HandleTypeDef *hpcd, uint8_t state)
 #else
 void HAL_PCDEx_SetConnectionState(PCD_HandleTypeDef *hpcd, uint8_t state)
 #endif /* USE_HAL_PCD_REGISTER_CALLBACKS */

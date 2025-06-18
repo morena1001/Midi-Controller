@@ -23,8 +23,6 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_midi.h"
-#include <string.h>
-#include <stdio.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,33 +42,75 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
+ADC_HandleTypeDef hadc2;
 
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
-extern uint16_t previous;
-extern uint16_t current;
-extern uint16_t ADC_val[2];
-extern float alpha;
+extern uint16_t D_previous;
+extern uint16_t D_current;
+extern uint16_t D_sum;
 
-extern uint8_t vol_message [4];
+extern uint16_t P_previous;
+extern uint16_t P_current;
+extern uint16_t P_sum;
+
+extern uint8_t D_vol_message [4];
+extern uint8_t P_vol_message [4];
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_TIM2_Init(void);
 static void MX_ADC1_Init(void);
+static void MX_TIM2_Init(void);
+static void MX_ADC2_Init(void);
 /* USER CODE BEGIN PFP */
-
+uint16_t ADC_Convert_Rank1 (void);
+uint16_t ADC_Convert_Rank2 (void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//uint8_t data[6] = { 0x19, 0x91, 0x24, 0x40, 0x24, 0x00 };
-//char *data_2 = "HELLO WORLD\n";
+uint16_t ADC_Convert_Rank1 (void) {
+	ADC_ChannelConfTypeDef sConfig = {0};
+
+	sConfig.Channel = ADC_CHANNEL_8;
+	sConfig.Rank = ADC_REGULAR_RANK_1;
+	sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+	if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	HAL_ADC_Start (&hadc1);
+	HAL_ADC_PollForConversion (&hadc1, 100);
+	uint16_t val = HAL_ADC_GetValue (&hadc1);
+	HAL_ADC_Stop (&hadc1);
+
+	return val;
+}
+
+uint16_t ADC_Convert_Rank2 (void) {
+	ADC_ChannelConfTypeDef sConfig = {0};
+
+	sConfig.Channel = ADC_CHANNEL_9;
+	sConfig.Rank = ADC_REGULAR_RANK_1;
+	sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+	if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+	{
+		Error_Handler();
+	}
+
+	HAL_ADC_Start (&hadc2);
+	HAL_ADC_PollForConversion (&hadc2, 100);
+	uint16_t val = HAL_ADC_GetValue (&hadc2);
+	HAL_ADC_Stop (&hadc2);
+
+	return val;
+}
 /* USER CODE END 0 */
 
 /**
@@ -102,32 +142,118 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_TIM2_Init();
   MX_USB_DEVICE_Init();
   MX_ADC1_Init();
+  MX_TIM2_Init();
+  MX_ADC2_Init();
   /* USER CODE BEGIN 2 */
+  	  for (uint8_t i = 0; i < 16; i++) {
+  		  D_sum += ADC_Convert_Rank1 ();
+  	  }
+
+  	  D_current = ((D_sum >> 4) * 127) / 4095;
+  	  D_sum = 0;
+
+  	  if (D_current < D_previous - 3 || D_current > D_previous + 3) {
+  		  D_previous = D_current;
+  		  D_vol_message[3] = D_current;
+
+  	      while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+  	      USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
+  	  }
+
+  	  for (uint8_t i = 0; i < 16; i++) {
+  		  P_sum += ADC_Convert_Rank2 ();
+  	  }
+
+  	  P_current = ((P_sum >> 4) * 127) / 4095;
+  	  P_sum = 0;
+
+  	  if (P_current < P_previous - 3 || P_current > P_previous + 3) {
+  		  P_previous = P_current;
+  		  P_vol_message[3] = P_current;
+
+  	      while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+  	      USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
+  	  }
+
+
+//    for (uint8_t i = 0; i < 16; i++) {
+//		HAL_ADC_Start (&hadc1);
+//		HAL_ADC_PollForConversion (&hadc1, 100);
+//		D_sum += HAL_ADC_GetValue (&hadc1);
+//
+//		HAL_ADC_Start (&hadc1);
+//		HAL_ADC_PollForConversion (&hadc1, 100);
+//		P_sum += HAL_ADC_GetValue (&hadc1);
+//
+//		HAL_ADC_Stop (&hadc1);
+//	}
+//
+//	D_current = ((D_sum >> 4) * 127) / 4095;
+//	P_current = ((P_sum >> 4) * 127) / 4095;
+//	D_sum = 0;
+//	P_sum = 0;
+//
+//	if (D_current < D_previous - 3 || D_current > D_previous + 3) {
+//		D_previous = D_current;
+//		D_vol_message[3] = D_current;
+//
+//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//		USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
+//	}
+//
+//	if (P_current < P_previous - 3 || P_current > P_previous + 3) {
+//		P_previous = P_current;
+//		P_vol_message[3] = P_current;
+//
+//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//		USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
+//	}
+
+
+
   HAL_NVIC_SetPriority (TIM2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ (TIM2_IRQn);
   HAL_TIM_Base_Start_IT (&htim2);
   /* USER CODE END 2 */
-    HAL_ADC_Start (&hadc1);
-	HAL_ADC_PollForConversion (&hadc1, 100);
-	ADC_val[0] = HAL_ADC_GetValue (&hadc1);
-	ADC_val[1] = HAL_ADC_GetValue (&hadc1);
-	current = (alpha * ADC_val[1]) + ((1 - alpha) * ADC_val[0]);
-	current = (current * 127) / (4095);
-	previous = current;
-	vol_message[3] = current;
 
-	while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-	USBD_MIDI_SendPackets (&hUsbDeviceFS, vol_message, 4);
-	/* Infinite loop */
+  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+//	  for (uint8_t i = 0; i < 16; i++) {
+//		  D_sum += ADC_Convert_Rank1 ();
+//	  }
+//
+//	  D_current = ((D_sum >> 4) * 127) / 4095;
+//	  D_sum = 0;
+//
+//	  if (D_current < D_previous - 3 || D_current > D_previous + 3) {
+//		  D_previous = D_current;
+//		  D_vol_message[3] = D_current;
+//
+//	      while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//	      USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
+//	  }
+//	  HAL_Delay (250);
+
+
+
+//	  D_current = ADC_Convert_Rank1 ();
+//	  D_sum = ADC_Convert_Rank1 ();
+//	  D_current = (0.05f * D_sum) + ((1 - 0.05f) * D_current);
+//	  D_current = (D_current * 127) / 4095;
+//
+//	  D_vol_message[3] = D_current;
+//
+//	  while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//	  USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
+//
+//	  HAL_Delay (250);
   }
   /* USER CODE END 3 */
 }
@@ -170,10 +296,9 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USB|RCC_PERIPHCLK_ADC1;
-  PeriphClkInit.USBClockSelection = RCC_USBCLKSOURCE_PLL;
-  PeriphClkInit.Adc1ClockSelection = RCC_ADC1PLLCLK_DIV1;
-
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC|RCC_PERIPHCLK_USB;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV4;
+  PeriphClkInit.UsbClockSelection = RCC_USBCLKSOURCE_PLL;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -201,19 +326,12 @@ static void MX_ADC1_Init(void)
   /** Common config
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
-  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
-  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
-  hadc1.Init.DMAContinuousRequests = DISABLE;
-  hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
-  hadc1.Init.LowPowerAutoWait = DISABLE;
-  hadc1.Init.Overrun = ADC_OVR_DATA_OVERWRITTEN;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
     Error_Handler();
@@ -221,19 +339,63 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-  sConfig.Channel = ADC_CHANNEL_1;
-  sConfig.Rank = ADC_REGULAR_RANK_1;
-  sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-  sConfig.OffsetNumber = ADC_OFFSET_NONE;
-  sConfig.Offset = 0;
-  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
+//  sConfig.Channel = ADC_CHANNEL_8;
+//  sConfig.Rank = ADC_REGULAR_RANK_1;
+//  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
+
+}
+
+/**
+  * @brief ADC2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC2_Init(void)
+{
+
+  /* USER CODE BEGIN ADC2_Init 0 */
+
+  /* USER CODE END ADC2_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC2_Init 1 */
+
+  /* USER CODE END ADC2_Init 1 */
+
+  /** Common config
+  */
+  hadc2.Instance = ADC2;
+  hadc2.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc2.Init.ContinuousConvMode = DISABLE;
+  hadc2.Init.DiscontinuousConvMode = DISABLE;
+  hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc2.Init.NbrOfConversion = 1;
+  if (HAL_ADC_Init(&hadc2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+//  sConfig.Channel = ADC_CHANNEL_9;
+//  sConfig.Rank = ADC_REGULAR_RANK_1;
+//  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+//  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+//  {
+//    Error_Handler();
+//  }
+  /* USER CODE BEGIN ADC2_Init 2 */
+
+  /* USER CODE END ADC2_Init 2 */
 
 }
 
@@ -294,23 +456,23 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
-  __HAL_RCC_GPIOF_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pin : GB_Pin */
-  GPIO_InitStruct.Pin = GB_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  /*Configure GPIO pins : C_B_Pin CS_B_Pin D_B_Pin DS_B_Pin
+                           E_B_Pin F_B_Pin FS_B_Pin */
+  GPIO_InitStruct.Pin = C_B_Pin|CS_B_Pin|D_B_Pin|DS_B_Pin
+                          |E_B_Pin|F_B_Pin|FS_B_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GB_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : CB_Pin CSB_Pin DB_Pin ASB_Pin
-                           BB_Pin SPB_Pin DSB_Pin EB_Pin
-                           FB_Pin FSB_Pin GSB_Pin AB_Pin */
-  GPIO_InitStruct.Pin = CB_Pin|CSB_Pin|DB_Pin|ASB_Pin
-                          |BB_Pin|SPB_Pin|DSB_Pin|EB_Pin
-                          |FB_Pin|FSB_Pin|GSB_Pin|AB_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  /*Configure GPIO pins : G_B_Pin GS_B_Pin A_B_Pin AS_B_Pin
+                           B_B_Pin SP_B_Pin */
+  GPIO_InitStruct.Pin = G_B_Pin|GS_B_Pin|A_B_Pin|AS_B_Pin
+                          |B_B_Pin|SP_B_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
