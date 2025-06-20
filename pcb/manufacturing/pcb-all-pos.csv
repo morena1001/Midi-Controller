@@ -1,0 +1,18 @@
+"Designator","Val","Package","Mid X","Mid Y","Rotation","Layer"
+"J1","Conn_01x20_Socket","PinHeader_1x20_P2.54mm_Vertical",65.125000,-83.310000,90.000000,top
+"J2","Conn_01x20_Socket","PinHeader_1x20_P2.54mm_Vertical",65.125000,-68.070000,90.000000,top
+"J3","Conn_01x03_Socket","Potentiometer_Alpha_RD901F-40-00D_Single_Vertical_CircularHoles",164.550000,-78.310000,90.000000,top
+"J4","Conn_01x03_Socket","Potentiometer_Alpha_RD901F-40-00D_Single_Vertical_CircularHoles",184.550000,-78.310000,90.000000,top
+"SW1","SW_Push","SW_Cherry_MX_1.00u_Plate",82.700000,-118.310000,0.000000,top
+"SW2","SW_Push","SW_Cherry_MX_1.00u_Plate",92.700000,-98.310000,0.000000,top
+"SW3","SW_Push","SW_Cherry_MX_1.00u_Plate",102.700000,-118.310000,0.000000,top
+"SW4","SW_Push","SW_Cherry_MX_1.00u_Plate",112.700000,-98.310000,0.000000,top
+"SW5","SW_Push","SW_Cherry_MX_1.00u_Plate",122.700000,-118.310000,0.000000,top
+"SW6","SW_Push","SW_Cherry_MX_1.00u_Plate",142.700000,-118.310000,0.000000,top
+"SW7","SW_Push","SW_Cherry_MX_1.00u_Plate",152.700000,-98.310000,0.000000,top
+"SW8","SW_Push","SW_Cherry_MX_1.00u_Plate",162.700000,-118.310000,0.000000,top
+"SW9","SW_Push","SW_Cherry_MX_1.00u_Plate",172.700000,-98.310000,0.000000,top
+"SW10","SW_Push","SW_Cherry_MX_1.00u_Plate",182.700000,-118.310000,0.000000,top
+"SW11","SW_Push","SW_Cherry_MX_1.00u_Plate",192.700000,-98.310000,0.000000,top
+"SW12","SW_Push","SW_Cherry_MX_1.00u_Plate",202.700000,-118.310000,0.000000,top
+"SW13","SW_Push","SW_Cherry_MX_1.00u_Plate",242.650000,-118.310000,0.000000,top
