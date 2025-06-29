@@ -18,18 +18,19 @@
   - [x] ~~Translate code to work with final design MCU~~
 
      
-- [ ] Design final product part 1
-  - [ ] Choose components for the project
+- [x] Design final product part 1
+  - [x] Choose components for the project
     - [x] ~~push buttons~~
     - [x] ~~potentiometers~~
     - [ ] capacitors (breadboard and SMD)
     - [ ] LED (SMD) ? 
-  - [ ] Design PCB according to the size and pin specifications of all the components
-    - [ ] Send schematics to be printed by a 3rd party PCB printing company online
-  - [ ] Create rough sketch of the layout for the push buttons and potentiometers
+  - [x] Design PCB according to the size and pin specifications of all the components
+    - [x] Send schematics to be printed by a 3rd party PCB printing company online
+  - [x] Create rough sketch of the layout for the push buttons and potentiometers
 
         
 - [ ] Prototype on final design components
+  - [ ] Fix issues and bugs software side before testing the PCB (6 29 25)
   - [ ] Rewire breadboard to test final design push buttons, potentiometers, and capacitor
   - [ ] Solder final design push buttons, capacitors, potentiometers, and MCU to the 3rd party PCB
   - [ ] Test to make sure PCB and components are working as should

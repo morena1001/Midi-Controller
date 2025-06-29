@@ -1,0 +1,9 @@
+# First Submission of PCB 
+
+The PCB was completed in the third week. The positions and placement of the components were finalized, and certain decorations like the name of the "company", version of the PCB, and date of design completion were all added as a silkscreen. JLCPCB was the company chosen to have the PCB manufactured, and as of writing this progress report, June 29, 2025, the PCB has yet to arrive. The whole project has been delayed while I wait for the PCB to arrive. 
+
+Apart from submitting the PCB, a major crash was discovered while testing the potentiometers. If a button is pressed while a potentiometer is being moved, the entire system crashes, and has to be powered off and on to work again. I think the issue stems from the MIDI library that I am using, and more specifically, the way that messages are sent. I believe that messages are sent as they come without a buffer to make sure that messages wait for the communication line to be ready. A possible solution that I have come up with is to create a queue that stores all inputs for both buttons and potentiometers. That way, the only way for a message to be sent is to join the back of the queue and wait until it gets processed. 
+
+Although it is a slight detour, I will include the buffer feature as part of the "Prototype on final design components" section of the *Task Decomposition* list. Hopefully this feature solves the crashing, but in the case that it doesn't, I'll continue down the task decomposition list and test the PCB while I try to find another possible solution.
+
+There was no progress made in week 4 as other side projects took the spotlight.
