@@ -23,6 +23,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "usbd_midi.h"
+#include "queue.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -45,6 +46,7 @@ ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
 
 TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
 extern USBD_HandleTypeDef hUsbDeviceFS;
@@ -67,6 +69,7 @@ static void MX_GPIO_Init(void);
 static void MX_ADC1_Init(void);
 static void MX_TIM2_Init(void);
 static void MX_ADC2_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 uint16_t ADC_Convert_Rank1 (void);
 uint16_t ADC_Convert_Rank2 (void);
@@ -146,76 +149,47 @@ int main(void)
   MX_ADC1_Init();
   MX_TIM2_Init();
   MX_ADC2_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  	  for (uint8_t i = 0; i < 16; i++) {
-  		  D_sum += ADC_Convert_Rank1 ();
-  	  }
+  Queue_Init (DEFAULT_QUEUE_SIZE);
 
-  	  D_current = ((D_sum >> 4) * 127) / 4095;
-  	  D_sum = 0;
-
-  	  if (D_current < D_previous - 3 || D_current > D_previous + 3) {
-  		  D_previous = D_current;
-  		  D_vol_message[3] = D_current;
-
-  	      while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-  	      USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
-  	  }
-
-  	  for (uint8_t i = 0; i < 16; i++) {
-  		  P_sum += ADC_Convert_Rank2 ();
-  	  }
-
-  	  P_current = ((P_sum >> 4) * 127) / 4095;
-  	  P_sum = 0;
-
-  	  if (P_current < P_previous - 3 || P_current > P_previous + 3) {
-  		  P_previous = P_current;
-  		  P_vol_message[3] = P_current;
-
-  	      while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-  	      USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
-  	  }
-
-
-//    for (uint8_t i = 0; i < 16; i++) {
-//		HAL_ADC_Start (&hadc1);
-//		HAL_ADC_PollForConversion (&hadc1, 100);
-//		D_sum += HAL_ADC_GetValue (&hadc1);
+//  for (uint8_t i = 0; i < 16; i++) {
+//	  D_sum += ADC_Convert_Rank1 ();
+//  }
 //
-//		HAL_ADC_Start (&hadc1);
-//		HAL_ADC_PollForConversion (&hadc1, 100);
-//		P_sum += HAL_ADC_GetValue (&hadc1);
+//  D_current = ((D_sum >> 4) * 127) / 4095;
+//  D_sum = 0;
 //
-//		HAL_ADC_Stop (&hadc1);
-//	}
+//  if (D_current < D_previous - 3 || D_current > D_previous + 3) {
+//	  D_previous = D_current;
+//	  D_vol_message[3] = D_current;
 //
-//	D_current = ((D_sum >> 4) * 127) / 4095;
-//	P_current = ((P_sum >> 4) * 127) / 4095;
-//	D_sum = 0;
-//	P_sum = 0;
+//	  while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//	  USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
+//  }
 //
-//	if (D_current < D_previous - 3 || D_current > D_previous + 3) {
-//		D_previous = D_current;
-//		D_vol_message[3] = D_current;
+//  for (uint8_t i = 0; i < 16; i++) {
+//	  P_sum += ADC_Convert_Rank2 ();
+//  }
 //
-//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//		USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
-//	}
+//  P_current = ((P_sum >> 4) * 127) / 4095;
+//  P_sum = 0;
 //
-//	if (P_current < P_previous - 3 || P_current > P_previous + 3) {
-//		P_previous = P_current;
-//		P_vol_message[3] = P_current;
+//  if (P_current < P_previous - 3 || P_current > P_previous + 3) {
+//	  P_previous = P_current;
+//	  P_vol_message[3] = P_current;
 //
-//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//		USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
-//	}
-
-
+//	  while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//	  USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
+//  }
 
   HAL_NVIC_SetPriority (TIM2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ (TIM2_IRQn);
   HAL_TIM_Base_Start_IT (&htim2);
+
+  HAL_NVIC_SetPriority (TIM3_IRQn , 0, 0);
+  HAL_NVIC_EnableIRQ (TIM3_IRQn );
+  HAL_TIM_Base_Start_IT (&htim3);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -225,35 +199,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	  for (uint8_t i = 0; i < 16; i++) {
-//		  D_sum += ADC_Convert_Rank1 ();
-//	  }
-//
-//	  D_current = ((D_sum >> 4) * 127) / 4095;
-//	  D_sum = 0;
-//
-//	  if (D_current < D_previous - 3 || D_current > D_previous + 3) {
-//		  D_previous = D_current;
-//		  D_vol_message[3] = D_current;
-//
-//	      while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//	      USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
-//	  }
-//	  HAL_Delay (250);
-
-
-
-//	  D_current = ADC_Convert_Rank1 ();
-//	  D_sum = ADC_Convert_Rank1 ();
-//	  D_current = (0.05f * D_sum) + ((1 - 0.05f) * D_current);
-//	  D_current = (D_current * 127) / 4095;
-//
-//	  D_vol_message[3] = D_current;
-//
-//	  while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//	  USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
-//
-//	  HAL_Delay (250);
   }
   /* USER CODE END 3 */
 }
@@ -441,6 +386,51 @@ static void MX_TIM2_Init(void)
   /* USER CODE BEGIN TIM2_Init 2 */
 
   /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 1799;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 799;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
 
 }
 
