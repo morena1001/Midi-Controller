@@ -99,18 +99,18 @@ uint16_t ADC_Convert_Rank1 (void) {
 uint16_t ADC_Convert_Rank2 (void) {
 	ADC_ChannelConfTypeDef sConfig = {0};
 
-	sConfig.Channel = ADC_CHANNEL_9;
-	sConfig.Rank = ADC_REGULAR_RANK_1;
+	sConfig.Channel = ADC_CHANNEL_0; // ADC_CHANNEL_0
+ 	sConfig.Rank = ADC_REGULAR_RANK_1;
 	sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-	if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+	if (HAL_ADC_ConfigChannel(&hadc1 /*&hadc2*/, &sConfig) != HAL_OK)
 	{
 		Error_Handler();
 	}
 
-	HAL_ADC_Start (&hadc2);
-	HAL_ADC_PollForConversion (&hadc2, 100);
-	uint16_t val = HAL_ADC_GetValue (&hadc2);
-	HAL_ADC_Stop (&hadc2);
+	HAL_ADC_Start (&hadc1 /*&hadc2*/);
+	HAL_ADC_PollForConversion (&hadc1 /*&hadc2*/, 100);
+	uint16_t val = HAL_ADC_GetValue (&hadc1 /*&hadc2*/);
+	HAL_ADC_Stop (&hadc1 /*&hadc2*/);
 
 	return val;
 }
@@ -196,10 +196,15 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+//	  Enqueue (D_vol_message);
+//	  while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//	  		USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
+//	  HAL_Delay (250);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
   }
+  Queue_Deinit ();
   /* USER CODE END 3 */
 }
 
@@ -271,12 +276,12 @@ static void MX_ADC1_Init(void)
   /** Common config
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc1.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
-  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.NbrOfConversion = 2;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
   {
     Error_Handler();
@@ -284,13 +289,22 @@ static void MX_ADC1_Init(void)
 
   /** Configure Regular Channel
   */
-//  sConfig.Channel = ADC_CHANNEL_8;
-//  sConfig.Rank = ADC_REGULAR_RANK_1;
-//  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-//  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
-//  {
-//    Error_Handler();
-//  }
+  sConfig.Channel = ADC_CHANNEL_8;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_0;
+  sConfig.Rank = ADC_REGULAR_RANK_2;
+  if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN ADC1_Init 2 */
 
   /* USER CODE END ADC1_Init 2 */
@@ -331,13 +345,13 @@ static void MX_ADC2_Init(void)
 
   /** Configure Regular Channel
   */
-//  sConfig.Channel = ADC_CHANNEL_9;
-//  sConfig.Rank = ADC_REGULAR_RANK_1;
-//  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-//  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
-//  {
-//    Error_Handler();
-//  }
+  sConfig.Channel = ADC_CHANNEL_9;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   /* USER CODE BEGIN ADC2_Init 2 */
 
   /* USER CODE END ADC2_Init 2 */

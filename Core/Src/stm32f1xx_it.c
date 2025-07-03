@@ -381,26 +381,21 @@ void TIM2_IRQHandler(void)
 
 
 //	if (elapsed_times > 4) {
-//
 //		for (uint8_t i = 0; i < 16; i++) {
 //	        D_sum += ADC_Convert_Rank1 ();
 //		}
-//
+
 //		D_current = ((D_sum >> 4) * 127) / 4095;
 //		D_sum = 0;
-//
-//		if (!pressed && (D_current < D_previous - 3 || D_current > D_previous + 3)) {
-//			pressed = true;
-//
+
+//		if (D_current < D_previous - 3 || D_current > D_previous + 3) {
 //			D_previous = D_current;
 //			D_vol_message[3] = D_current;
 //
 //			while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
 //			USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
-//
-//			pressed = false;
 //		}
-//
+
 //		for (uint8_t i = 0; i < 16; i++) {
 //			P_sum += ADC_Convert_Rank2 ();
 //		}
@@ -414,9 +409,10 @@ void TIM2_IRQHandler(void)
 //			P_previous = P_current;
 //			P_vol_message[3] = P_current;
 //
+//			Enqueue (P_vol_message);
 //			while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
 //			USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
-//
+
 //			pressed = false;
 //		}
 //
@@ -446,26 +442,22 @@ void TIM3_IRQHandler(void)
 		D_previous = D_current;
 		D_vol_message [3] = D_current;
 
-		Enqueue (D_vol_message);
+		USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
+//		Enqueue (D_vol_message);
 	}
 
-//	for (uint8_t i = 0; i < 16; i++) {
-//		P_sum += ADC_Convert_Rank2 ();
-
-//		HAL_ADC_Start (&hadc2);
-//		HAL_ADC_PollForConversion (&hadc2, 100);
-//		P_sum += HAL_ADC_GetValue (&hadc2);
-//		HAL_ADC_Stop (&hadc2);
-//	}
+//	for (uint8_t i = 0; i < 16; i++)	P_sum += ADC_Convert_Rank2 ();
 
 //	P_current = ((P_sum >> 4) * 127) / 4095;
 //	P_sum = 0;
-//
+
 //	if (P_current < P_previous - 3 || P_current > P_previous + 3) {
 //		P_previous = P_current;
-//		P_vol_message [3] = P_current;
-//
+//		D_vol_message [3] = P_current;
+
 //		Enqueue (P_vol_message);
+//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//				USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
 //	}
   /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);
