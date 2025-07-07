@@ -9,6 +9,6 @@
 ../Core/Src/stm32f1xx_it.c:234:6:SysTick_Handler	1
 ../Core/Src/stm32f1xx_it.c:255:6:USB_LP_CAN1_RX0_IRQHandler	1
 ../Core/Src/stm32f1xx_it.c:269:6:TIM2_IRQHandler	31
-../Core/Src/stm32f1xx_it.c:433:6:TIM3_IRQHandler	4
-../Core/Src/stm32f1xx_it.c:470:6:Note_Change	1
-../Core/Src/stm32f1xx_it.c:483:6:Toggle_Control	2
+../Core/Src/stm32f1xx_it.c:433:6:TIM3_IRQHandler	7
+../Core/Src/stm32f1xx_it.c:471:6:Note_Change	1
+../Core/Src/stm32f1xx_it.c:484:6:Toggle_Control	2

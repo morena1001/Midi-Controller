@@ -99,18 +99,18 @@ uint16_t ADC_Convert_Rank1 (void) {
 uint16_t ADC_Convert_Rank2 (void) {
 	ADC_ChannelConfTypeDef sConfig = {0};
 
-	sConfig.Channel = ADC_CHANNEL_0; // ADC_CHANNEL_0
+	sConfig.Channel = ADC_CHANNEL_9; // ADC_CHANNEL_0
  	sConfig.Rank = ADC_REGULAR_RANK_1;
 	sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
-	if (HAL_ADC_ConfigChannel(&hadc1 /*&hadc2*/, &sConfig) != HAL_OK)
+	if (HAL_ADC_ConfigChannel(&hadc2 /*&hadc1*/, &sConfig) != HAL_OK)
 	{
 		Error_Handler();
 	}
 
-	HAL_ADC_Start (&hadc1 /*&hadc2*/);
-	HAL_ADC_PollForConversion (&hadc1 /*&hadc2*/, 100);
-	uint16_t val = HAL_ADC_GetValue (&hadc1 /*&hadc2*/);
-	HAL_ADC_Stop (&hadc1 /*&hadc2*/);
+	HAL_ADC_Start (&hadc2 /*&hadc1*/);
+	HAL_ADC_PollForConversion (&hadc2 /*&hadc1*/, 100);
+	uint16_t val = HAL_ADC_GetValue (&hadc2 /*&hadc1*/);
+	HAL_ADC_Stop (&hadc2 /*&hadc1*/);
 
 	return val;
 }
@@ -153,35 +153,33 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Queue_Init (DEFAULT_QUEUE_SIZE);
 
-//  for (uint8_t i = 0; i < 16; i++) {
-//	  D_sum += ADC_Convert_Rank1 ();
-//  }
+//	for (uint8_t i = 0; i < 16; i++)	D_sum += ADC_Convert_Rank1 ();
 //
-//  D_current = ((D_sum >> 4) * 127) / 4095;
-//  D_sum = 0;
+//	D_current = ((D_sum >> 4) * 127) / 4095;
+//	D_sum = 0;
 //
-//  if (D_current < D_previous - 3 || D_current > D_previous + 3) {
-//	  D_previous = D_current;
-//	  D_vol_message[3] = D_current;
+//	if (D_current < D_previous - 3 || D_current > D_previous + 3) {
+//		D_previous = D_current;
+//		D_vol_message [3] = D_current;
 //
-//	  while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//	  USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
-//  }
+//	//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//		USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
+//	//		Enqueue (D_vol_message);
+//	}
 //
-//  for (uint8_t i = 0; i < 16; i++) {
-//	  P_sum += ADC_Convert_Rank2 ();
-//  }
+//	for (uint8_t i = 0; i < 16; i++)	P_sum += ADC_Convert_Rank2 ();
 //
-//  P_current = ((P_sum >> 4) * 127) / 4095;
-//  P_sum = 0;
+//	P_current = ((P_sum >> 4) * 127) / 4095;
+//	P_sum = 0;
 //
-//  if (P_current < P_previous - 3 || P_current > P_previous + 3) {
-//	  P_previous = P_current;
-//	  P_vol_message[3] = P_current;
+//	if (P_current < P_previous - 3 || P_current > P_previous + 3) {
+//		P_previous = P_current;
+//		D_vol_message [3] = P_current;
 //
-//	  while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//	  USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
-//  }
+//	//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//		USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
+//	//		Enqueue (P_vol_message);
+//	}
 
   HAL_NVIC_SetPriority (TIM2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ (TIM2_IRQn);
@@ -196,10 +194,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-//	  Enqueue (D_vol_message);
-//	  while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//	  		USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
-//	  HAL_Delay (250);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

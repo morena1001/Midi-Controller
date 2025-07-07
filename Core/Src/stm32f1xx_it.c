@@ -442,23 +442,24 @@ void TIM3_IRQHandler(void)
 		D_previous = D_current;
 		D_vol_message [3] = D_current;
 
+//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
 		USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
 //		Enqueue (D_vol_message);
 	}
 
-//	for (uint8_t i = 0; i < 16; i++)	P_sum += ADC_Convert_Rank2 ();
+	for (uint8_t i = 0; i < 16; i++)	P_sum += ADC_Convert_Rank2 ();
 
-//	P_current = ((P_sum >> 4) * 127) / 4095;
-//	P_sum = 0;
+	P_current = ((P_sum >> 4) * 127) / 4095;
+	P_sum = 0;
 
-//	if (P_current < P_previous - 3 || P_current > P_previous + 3) {
-//		P_previous = P_current;
-//		D_vol_message [3] = P_current;
+	if (P_current < P_previous - 3 || P_current > P_previous + 3) {
+		P_previous = P_current;
+		P_vol_message [3] = P_current;
 
-//		Enqueue (P_vol_message);
 //		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//				USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
-//	}
+		USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
+//		Enqueue (P_vol_message);
+	}
   /* USER CODE END TIM3_IRQn 0 */
   HAL_TIM_IRQHandler(&htim3);
   /* USER CODE BEGIN TIM3_IRQn 1 */

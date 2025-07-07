@@ -10,5 +10,5 @@
 ../Core/Src/stm32f1xx_it.c:255:6:USB_LP_CAN1_RX0_IRQHandler	8	static
 ../Core/Src/stm32f1xx_it.c:269:6:TIM2_IRQHandler	16	static
 ../Core/Src/stm32f1xx_it.c:433:6:TIM3_IRQHandler	16	static
-../Core/Src/stm32f1xx_it.c:470:6:Note_Change	16	static
-../Core/Src/stm32f1xx_it.c:483:6:Toggle_Control	4	static
+../Core/Src/stm32f1xx_it.c:471:6:Note_Change	16	static
+../Core/Src/stm32f1xx_it.c:484:6:Toggle_Control	4	static
