@@ -1,0 +1,6 @@
+../Core/Src/queue.c:23:6:Queue_Init	1
+../Core/Src/queue.c:40:6:Queue_Deinit	2
+../Core/Src/queue.c:55:6:Enqueue	5
+../Core/Src/queue.c:78:10:Dequeue	3
+../Core/Src/queue.c:93:10:Front	3
+../Core/Src/queue.c:105:6:Print_Queue	3

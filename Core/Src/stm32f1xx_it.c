@@ -22,8 +22,11 @@
 #include "stm32f1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "usbd_midi.h"
 #include <stdbool.h>
+#include <stdlib.h>
+
+#include "usbd_midi.h"
+#include "queue.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -79,8 +82,6 @@ uint16_t P_current = 0;
 uint16_t P_sum = 0;
 
 uint8_t elapsed_times = 1;
-
-bool locked = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -103,6 +104,7 @@ uint16_t ADC_Convert_Rank2 (void);
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_FS;
 extern TIM_HandleTypeDef htim2;
+extern TIM_HandleTypeDef htim3;
 /* USER CODE BEGIN EV */
 extern USBD_HandleTypeDef hUsbDeviceFS;
 extern ADC_HandleTypeDef hadc1;
@@ -267,75 +269,95 @@ void USB_LP_CAN1_RX0_IRQHandler(void)
 void TIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM2_IRQn 0 */
+	uint8_t *msg = Dequeue ();
+	if (msg != NULL) {
+		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+		USBD_MIDI_SendPackets (&hUsbDeviceFS, msg, 4);
+	}
+
 	if (!HAL_GPIO_ReadPin (C_B_GPIO_Port, C_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (C);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (CS_B_GPIO_Port, CS_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (CS);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (D_B_GPIO_Port, D_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (D);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (DS_B_GPIO_Port, DS_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (DS);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (E_B_GPIO_Port, E_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (E);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (F_B_GPIO_Port, F_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (F);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (FS_B_GPIO_Port, FS_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
+
+			Note_Change (FS);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (G_B_GPIO_Port, G_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (G);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (GS_B_GPIO_Port, GS_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (GS);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (A_B_GPIO_Port, A_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (A);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (AS_B_GPIO_Port, AS_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (AS);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (B_B_GPIO_Port, B_B_Pin)) {
 		if (!pressed) {
 			pressed = true;
 
 			Note_Change (B);
+			Enqueue (on_message);
 		}
 	} else if (!HAL_GPIO_ReadPin (SP_B_GPIO_Port, SP_B_Pin)) {
 		if (!pressed) {
@@ -343,10 +365,12 @@ void TIM2_IRQHandler(void)
 			control_toggled = true;
 
 			Toggle_Control ();
+			Enqueue (PS_message);
 		}
 	} else {
 		if (pressed && !control_toggled) {
-			Note_Change (END);
+			Enqueue (off_message);
+//			Note_Change (END);
 		}
 
 		pressed = false;
@@ -356,65 +380,14 @@ void TIM2_IRQHandler(void)
 
 
 
-	if (elapsed_times > 4) {
-
-		for (uint8_t i = 0; i < 16; i++) {
-	        D_sum += ADC_Convert_Rank1 ();
-		}
-
-		D_current = ((D_sum >> 4) * 127) / 4095;
-		D_sum = 0;
-
-		if (D_current < D_previous - 3 || D_current > D_previous + 3) {
-			D_previous = D_current;
-			D_vol_message[3] = D_current;
-
-			while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-			while (locked) {}
-			locked = true;
-			USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
-			locked = false;
-		}
-
-		for (uint8_t i = 0; i < 16; i++) {
-			P_sum += ADC_Convert_Rank2 ();
-		}
-
-	  	P_current = ((P_sum >> 4) * 127) / 4095;
-	  	P_sum = 0;
-
-	  	if (P_current < P_previous - 3 || P_current > P_previous + 3) {
-			P_previous = P_current;
-			P_vol_message[3] = P_current;
-
-			while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-			USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
-		}
-
-		elapsed_times = 0;
-	}
-
-	elapsed_times++;
-
-
+//	if (elapsed_times > 4) {
 //		for (uint8_t i = 0; i < 16; i++) {
-//			HAL_ADC_Start (&hadc1);
-//			HAL_ADC_PollForConversion (&hadc1, 100);
-//			D_sum += HAL_ADC_GetValue (&hadc1);
-//
-//			HAL_ADC_Start (&hadc1);
-//			HAL_ADC_PollForConversion (&hadc1, 100);
-//			P_sum += HAL_ADC_GetValue (&hadc1);
-//
-//			HAL_ADC_Stop (&hadc1);
-//			HAL_Delay (100);
+//	        D_sum += ADC_Convert_Rank1 ();
 //		}
-//
+
 //		D_current = ((D_sum >> 4) * 127) / 4095;
-//		P_current = ((P_sum >> 4) * 127) / 4095;
 //		D_sum = 0;
-//		P_sum = 0;
-//
+
 //		if (D_current < D_previous - 3 || D_current > D_previous + 3) {
 //			D_previous = D_current;
 //			D_vol_message[3] = D_current;
@@ -422,64 +395,31 @@ void TIM2_IRQHandler(void)
 //			while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
 //			USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
 //		}
+
+//		for (uint8_t i = 0; i < 16; i++) {
+//			P_sum += ADC_Convert_Rank2 ();
+//		}
 //
-//		if (P_current < P_previous - 3 || P_current > P_previous + 3) {
+//	  	P_current = ((P_sum >> 4) * 127) / 4095;
+//	  	P_sum = 0;
+//
+//	  	if (!pressed && (P_current < P_previous - 3 || P_current > P_previous + 3)) {
+//	  		pressed = true;
+//
 //			P_previous = P_current;
 //			P_vol_message[3] = P_current;
 //
+//			Enqueue (P_vol_message);
 //			while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
 //			USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
+
+//			pressed = false;
 //		}
-
-//		elapsed_times = 0;
-
-
-//		HAL_ADC_Start (&hadc1);
-//		HAL_ADC_PollForConversion (&hadc1, 100);
-//		D_ADC_val[0] = HAL_ADC_GetValue (&hadc1);
 //
-//		HAL_ADC_Start (&hadc1);
-//		HAL_ADC_PollForConversion (&hadc1, 100);
-//		P_ADC_val[0] = HAL_ADC_GetValue (&hadc1);
-//
-//		HAL_ADC_Start (&hadc1);
-//		HAL_ADC_PollForConversion (&hadc1, 100);
-//		D_ADC_val[1] = HAL_ADC_GetValue (&hadc1);
-//
-//		HAL_ADC_Start (&hadc1);
-//		HAL_ADC_PollForConversion (&hadc1, 100);
-//		P_ADC_val[1] = HAL_ADC_GetValue (&hadc1);
-
-//		D_current = (alpha * D_ADC_val[1]) + ((1 - alpha) * D_ADC_val[0]);
-//		D_current = ratio (D_current);
-//
-//		P_current = (alpha * P_ADC_val[1]) + ((1 - alpha) * P_ADC_val[0]);
-//		P_current = ratio (P_current);
-//		P_previous = P_current;
-//		P_vol_message [3] = P_current;
-//
-//	    if (D_current < D_previous - 3 || D_current > D_previous + 3) {
-//	    	D_previous = D_current;
-//	    	D_vol_message [3] = D_current;
-//
-//	    	while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//	    	USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
-//	    }
-//
-//	    if (P_current < P_previous - 3 || P_current > P_previous + 3) {
-//			P_previous = P_current;
-//			P_vol_message [3] = P_current;
-//
-//			while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-//			USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
-//		}
-
-
 //		elapsed_times = 0;
 //	}
-
+//
 //	elapsed_times++;
-
   /* USER CODE END TIM2_IRQn 0 */
   HAL_TIM_IRQHandler(&htim2);
   /* USER CODE BEGIN TIM2_IRQn 1 */
@@ -487,34 +427,65 @@ void TIM2_IRQHandler(void)
   /* USER CODE END TIM2_IRQn 1 */
 }
 
+/**
+  * @brief This function handles TIM3 global interrupt.
+  */
+void TIM3_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM3_IRQn 0 */
+	for (uint8_t i = 0; i < 16; i++)	D_sum += ADC_Convert_Rank1 ();
+
+	D_current = ((D_sum >> 4) * 127) / 4095;
+	D_sum = 0;
+
+	if (D_current < D_previous - 3 || D_current > D_previous + 3) {
+		D_previous = D_current;
+		D_vol_message [3] = D_current;
+
+//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+		USBD_MIDI_SendPackets (&hUsbDeviceFS, D_vol_message, 4);
+//		Enqueue (D_vol_message);
+	}
+
+	for (uint8_t i = 0; i < 16; i++)	P_sum += ADC_Convert_Rank2 ();
+
+	P_current = ((P_sum >> 4) * 127) / 4095;
+	P_sum = 0;
+
+	if (P_current < P_previous - 3 || P_current > P_previous + 3) {
+		P_previous = P_current;
+		P_vol_message [3] = P_current;
+
+//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+		USBD_MIDI_SendPackets (&hUsbDeviceFS, P_vol_message, 4);
+//		Enqueue (P_vol_message);
+	}
+  /* USER CODE END TIM3_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim3);
+  /* USER CODE BEGIN TIM3_IRQn 1 */
+
+  /* USER CODE END TIM3_IRQn 1 */
+}
+
 /* USER CODE BEGIN 1 */
 void Note_Change (uint8_t value) {
-	if (value == END) {
-		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-		while (locked) {}
-		locked = true;
-		USBD_MIDI_SendPackets (&hUsbDeviceFS, off_message, 4);
-		locked = false;
-	} else {
+//	if (value == END) {
+//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//		USBD_MIDI_SendPackets (&hUsbDeviceFS, off_message, 4);
+//	} else {
 		on_message [2] = value;
 		off_message [2] = value;
 
-		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
-		while (locked) {}
-		locked = true;
-		USBD_MIDI_SendPackets (&hUsbDeviceFS, on_message, 4);
-		locked = false;
-	}
+//		while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//		USBD_MIDI_SendPackets (&hUsbDeviceFS, on_message, 4);
+//	}
 }
 
 void Toggle_Control () {
 	play_toggled = !play_toggled;
 	PS_message[3] = play_toggled ? PLAY : STOP;
 
-	while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}\
-	while (locked) {}
-	locked = true;
-	USBD_MIDI_SendPackets (&hUsbDeviceFS, PS_message, 4);
-	locked = false;
+//	while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}
+//	USBD_MIDI_SendPackets (&hUsbDeviceFS, PS_message, 4);
 }
 /* USER CODE END 1 */
