@@ -29,11 +29,11 @@
   - [x] Create rough sketch of the layout for the push buttons and potentiometers
 
         
-- [ ] Prototype on final design components
-  - [ ] Fix issues and bugs software side before testing the PCB (6 29 25)
-  - [ ] Rewire breadboard to test final design push buttons, potentiometers, and capacitor
-  - [ ] Solder final design push buttons, capacitors, potentiometers, and MCU to the 3rd party PCB
-  - [ ] Test to make sure PCB and components are working as should
+- [x] Prototype on final design components
+  - [x] Fix issues and bugs software side before testing the PCB (6 29 25)
+  - [x] Rewire breadboard to test final design push buttons, potentiometers, and capacitor
+  - [x] Solder final design push buttons, capacitors, potentiometers, and MCU to the 3rd party PCB
+  - [x] Test to make sure PCB and components are working as should
 
 
 - [ ] Design final product part 2
