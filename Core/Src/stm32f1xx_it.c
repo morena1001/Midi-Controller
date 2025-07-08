@@ -67,7 +67,7 @@ uint8_t off_message[4] = { 0x08, 0x80, 0x00, 0x40 };
 uint8_t PS_message[4] = { 0x0B, 0xB0, 0x15, STOP };
 
 uint8_t D_vol_message [4] = { 0x0B, 0xB0, 0x07, 0x00 };
-uint8_t P_vol_message [4] = { 0x0B, 0xB0, 0x07, 0x00 };
+uint8_t P_vol_message [4] = { 0x0B, 0xB0, 0x10 /*0x07*/, 0x00 };
 
 bool control_toggled = false;
 bool play_toggled = false;
@@ -433,7 +433,7 @@ void TIM2_IRQHandler(void)
 void TIM3_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM3_IRQn 0 */
-	for (uint8_t i = 0; i < 16; i++)	D_sum += ADC_Convert_Rank1 ();
+	for (uint8_t i = 0; i < 16; i++)	D_sum += ~(ADC_Convert_Rank1 ());
 
 	D_current = ((D_sum >> 4) * 127) / 4095;
 	D_sum = 0;
@@ -447,7 +447,7 @@ void TIM3_IRQHandler(void)
 //		Enqueue (D_vol_message);
 	}
 
-	for (uint8_t i = 0; i < 16; i++)	P_sum += ADC_Convert_Rank2 ();
+	for (uint8_t i = 0; i < 16; i++)	P_sum += ~(ADC_Convert_Rank2 ());
 
 	P_current = ((P_sum >> 4) * 127) / 4095;
 	P_sum = 0;
