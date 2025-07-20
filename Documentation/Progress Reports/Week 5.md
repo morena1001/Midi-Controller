@@ -1,0 +1,5 @@
+# Crash Issue Solved
+
+First of all, I found a solution to the crashing problem I was having in week 3. The issue was that the line `while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}` in the section that controlled the potentiometer input and output would cause an infinite loop, although I don't exactly know why it caused an infinite loop. I was also able to add  a new feature, the message queue. The 13 buttons' messages were placed on a queue before they were sent, and only sent a message after  the line `while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}` was passed. The queue didn't solve the crashing, so there may come a time where I will need to make the decision to remove it. What really solved the crashing was remove the line  `while (USBD_MIDI_GetState (&hUsbDeviceFS) != MIDI_IDLE) {}` from the section that controlled the potentiometer input and output, effectively removing the cause of the infinite loop.
+
+At the end of this week, I finally receieved the PCBs in the mail, meaning that I could finally continue with the project.
