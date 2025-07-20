@@ -37,11 +37,11 @@
 
 
 - [ ] Design final product part 2
-  - [ ] Dimension the PCB and its will-be-visible components 
-  - [ ] Create rough sketch of case
+  - [x] Dimension the PCB and its will-be-visible components 
+  - [x] Create rough sketch of case
   - [ ] Print the case
-    - [ ] First half is the top part with the holes for the push buttons, potentiometers, and Micro USB port
-    - [ ] Bottom half is a solid plate
+    - [x] First half is the top part with the holes for the push buttons, potentiometers, and Micro USB port
+    - [x] Bottom half is a solid plate
     - [ ] Halves are connected via screws
     - [ ] Reiterate until dimensions are good
 
@@ -53,6 +53,6 @@
     - [ ] Clear plastic to view led ?
 
 
-- [ ] Final live test
-  - [ ] Do final test to make sure all works well
-  - [ ] Do a live test with entire setup at church
+- [x] Final live test
+  - [x] Do final test to make sure all works well
+  - [x] Do a live test with entire setup at church
